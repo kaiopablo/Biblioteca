@@ -27,28 +27,28 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mainMenuBar = new javax.swing.JMenuBar();
+        menuCadastros = new javax.swing.JMenu();
+        menuAssociados = new javax.swing.JMenuItem();
+        menuLivros = new javax.swing.JMenuItem();
+        menuAutores = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Cadastros");
+        menuCadastros.setText("Cadastros");
 
-        jMenuItem1.setText("Associados");
-        jMenu1.add(jMenuItem1);
+        menuAssociados.setText("Associados");
+        menuCadastros.add(menuAssociados);
 
-        jMenuItem2.setText("Livros");
-        jMenu1.add(jMenuItem2);
+        menuLivros.setText("Livros");
+        menuCadastros.add(menuLivros);
 
-        jMenuItem3.setText("Autores");
-        jMenu1.add(jMenuItem3);
+        menuAutores.setText("Autores");
+        menuCadastros.add(menuAutores);
 
-        jMenuBar1.add(jMenu1);
+        mainMenuBar.add(menuCadastros);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mainMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,10 +100,10 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuBar mainMenuBar;
+    private javax.swing.JMenuItem menuAssociados;
+    private javax.swing.JMenuItem menuAutores;
+    private javax.swing.JMenu menuCadastros;
+    private javax.swing.JMenuItem menuLivros;
     // End of variables declaration//GEN-END:variables
 }

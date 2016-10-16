@@ -5,7 +5,7 @@
  */
 package Interface;
 
-import Database.Autor;
+import VO.Autor;
 
 /**
  *

@@ -5,8 +5,9 @@
  */
 package Interface;
 
-import Database.Associado;
-import Database.DBObject;
+import VO.Associado;
+import controller.AssociadoController;
+import java.util.List;
 
 /**
  *
@@ -14,8 +15,9 @@ import Database.DBObject;
  */
 public class CadAssociados extends javax.swing.JDialog {
 
-    private void setCadastrando(boolean cadastrando)
-    {
+    private final AssociadoController associadoController = new AssociadoController();
+
+    private void setCadastrando(boolean cadastrando) {
         txtNome.setEnabled(cadastrando);
         txtFone.setEnabled(cadastrando);
         txtEmail.setEnabled(cadastrando);
@@ -28,9 +30,8 @@ public class CadAssociados extends javax.swing.JDialog {
         btnEditar.setEnabled(!cadastrando);
         btnExcluir.setEnabled(!cadastrando);
     }
-    
-    private void setClean()
-    {
+
+    private void setClean() {
         txtBuscar.setText("");
         txtCod.setText("");
         txtNome.setText("");
@@ -38,14 +39,13 @@ public class CadAssociados extends javax.swing.JDialog {
         txtEmail.setText("");
         txtEnd.setText("");
     }
-    
-    private void atualizarTabela()
-    {
-        for(Associado ac : Associado.Buscar(txtBuscar.getText())){
-            
+
+    private void atualizarTabela() {
+        for (Associado ac : (List<Associado>) associadoController.search()) {
+
         }
     }
-    
+
     /**
      * Creates new form CadAssociados
      */
@@ -306,15 +306,17 @@ public class CadAssociados extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        int cod;
-        if(txtCod.getText().equals("")){
-            cod = -1;
-        }else{
-            cod = Integer.parseInt(txtCod.getText());
+        Associado novo;
+
+        if (txtCod.getText().equals("")) {
+            novo = new Associado(txtNome.getText(), txtFone.getText(),
+                    txtEmail.getText(), txtEnd.getText());
+        } else {
+            novo = new Associado(Long.parseLong(txtCod.getText()), txtNome.getText(), txtFone.getText(),
+                    txtEmail.getText(), txtEnd.getText());
         }
-        Associado novo = new Associado(cod, txtNome.getText(), txtFone.getText(),
-                                        txtEmail.getText(), txtEnd.getText());
-        novo.Cadastrar();
+        
+        associadoController.registry(novo);
         setClean();
         setCadastrando(false);
         atualizarTabela();

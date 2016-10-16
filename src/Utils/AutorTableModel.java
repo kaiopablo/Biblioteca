@@ -1,7 +1,7 @@
 package Utils;
 
-import Database.Autor;
-import Database.DBObject;
+import persistence.DAO.Autor;
+import persistence.DAO.DBObject;
 import java.util.ArrayList;
 
 /**

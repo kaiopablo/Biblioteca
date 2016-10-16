@@ -1,6 +1,6 @@
 package Utils;
 
-import Database.DBObject;
+import persistence.DAO.DBObject;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 

@@ -5,7 +5,7 @@
  */
 package Interface;
 
-import Database.Livro;
+import VO.Livro;
 import javax.swing.JOptionPane;
 
 /**

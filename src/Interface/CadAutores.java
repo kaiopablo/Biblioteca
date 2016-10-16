@@ -6,6 +6,11 @@
 package Interface;
 
 import VO.Autor;
+import controller.AutorController;
+import java.util.List;
+import Utils.AutorTableModel;
+import VO.ValueObject;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,6 +18,7 @@ import VO.Autor;
  */
 public class CadAutores extends javax.swing.JDialog {
 
+    private final AutorController autorController = new AutorController();
     
     private void setCadastrando(boolean cadastrando)
     {
@@ -35,9 +41,15 @@ public class CadAutores extends javax.swing.JDialog {
     
     private void atualizarTabela()
     {
-        for(Autor ac : Autor.Buscar(txtBuscar.getText())){
-            
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Autor ac : (List<Autor>) autorController.search()) {
+            if(txtBuscar.getText().equals("") || ac.getNome().contains(txtBuscar.getText())){
+                lista.add(ac);
+            }
         }
+        AutorTableModel tabela = (AutorTableModel)(tbDados.getModel());
+        tabela.setDados(lista);
+        tabela.fireTableDataChanged();
     }
     
     /**
@@ -86,17 +98,7 @@ public class CadAutores extends javax.swing.JDialog {
 
         jLabel1.setText("Buscar:");
 
-        tbDados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tbDados.setModel(new AutorTableModel());
         jScrollPane1.setViewportView(tbDados);
 
         btnNovo.setText("Novo");
@@ -256,27 +258,37 @@ public class CadAutores extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        setCadastrando(true);
-        //Edtiar textos
+        if(tbDados.getSelectedRowCount() != 0){
+            setCadastrando(true);
+            AutorTableModel tabela = (AutorTableModel)(tbDados.getModel());
+            Autor selected = (Autor)tabela.getDados().get(tbDados.getSelectedRow());
+            txtCod.setText(String.valueOf(selected.getId()));
+            txtNome.setText(selected.getNome());
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+        if(tbDados.getSelectedRowCount() != 0){
+            AutorTableModel tabela = (AutorTableModel)(tbDados.getModel());
+            Autor selected = (Autor)tabela.getDados().get(tbDados.getSelectedRow());
+            autorController.delete(selected);
+            setClean();
+            atualizarTabela();
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        atualizarTabela();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        int cod;
-        if(txtCod.getText().equals("")){
-            cod = -1;
-        }else{
-            cod = Integer.parseInt(txtCod.getText());
+        if (txtCod.getText().equals("")) {
+            Autor novo = new Autor(txtNome.getText());
+            autorController.registry(novo);
+        } else {
+            Autor edit = new Autor(Long.parseLong(txtCod.getText()), txtNome.getText());
+            autorController.update(edit);
         }
-        Autor novo = new Autor(cod, txtNome.getText());
-        novo.Cadastrar();
         setClean();
         setCadastrando(false);
         atualizarTabela();

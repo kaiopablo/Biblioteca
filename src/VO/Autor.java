@@ -26,6 +26,17 @@ public class Autor extends ValueObject implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id_autor;
     private String nome;
+    
+    public Autor(String nome)
+    {
+        this.nome = nome;
+    }
+    
+    public Autor(long ID, String nome)
+    {
+        this.setId(ID);
+        this.nome = nome;
+    }
 
     @Override
     public long getId() {

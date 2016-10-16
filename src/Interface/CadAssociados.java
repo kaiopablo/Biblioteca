@@ -5,8 +5,11 @@
  */
 package Interface;
 
+import Utils.AssociadoTableModel;
 import VO.Associado;
+import VO.ValueObject;
 import controller.AssociadoController;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,9 +44,15 @@ public class CadAssociados extends javax.swing.JDialog {
     }
 
     private void atualizarTabela() {
+        ArrayList<ValueObject> lista = new ArrayList<>();
         for (Associado ac : (List<Associado>) associadoController.search()) {
-
+            if(txtBuscar.getText().equals("") || ac.getNome().contains(txtBuscar.getText())){
+                lista.add(ac);
+            }
         }
+        AssociadoTableModel tabela = (AssociadoTableModel)(tbDados.getModel());
+        tabela.setDados(lista);
+        tabela.fireTableDataChanged();
     }
 
     /**
@@ -98,17 +107,7 @@ public class CadAssociados extends javax.swing.JDialog {
 
         jLabel1.setText("Buscar:");
 
-        tbDados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tbDados.setModel(new AssociadoTableModel());
         jScrollPane1.setViewportView(tbDados);
 
         btnNovo.setText("Novo");
@@ -243,26 +242,28 @@ public class CadAssociados extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBuscar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnBuscar))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(88, 88, 88)
+                                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscar)
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscar))))
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnCad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(pnCad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -294,29 +295,41 @@ public class CadAssociados extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        setCadastrando(true);
+        if(tbDados.getSelectedRowCount() != 0){
+            setCadastrando(true);
+            AssociadoTableModel tabela = (AssociadoTableModel)(tbDados.getModel());
+            Associado selected = (Associado)tabela.getDados().get(tbDados.getSelectedRow());
+            txtCod.setText(String.valueOf(selected.getId()));
+            txtNome.setText(selected.getNome());
+            txtEmail.setText(selected.getEmail());
+            txtEnd.setText(selected.getEndereco());
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        // TODO add your handling code here:
+        if(tbDados.getSelectedRowCount() != 0){
+            AssociadoTableModel tabela = (AssociadoTableModel)(tbDados.getModel());
+            Associado selected = (Associado)tabela.getDados().get(tbDados.getSelectedRow());
+            associadoController.delete(selected);
+            setClean();
+            atualizarTabela();
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        atualizarTabela();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Associado novo;
-
         if (txtCod.getText().equals("")) {
-            novo = new Associado(txtNome.getText(), txtFone.getText(),
+            Associado novo = new Associado(txtNome.getText(), txtFone.getText(),
                     txtEmail.getText(), txtEnd.getText());
+            associadoController.registry(novo);
         } else {
-            novo = new Associado(Long.parseLong(txtCod.getText()), txtNome.getText(), txtFone.getText(),
+            Associado edit = new Associado(Long.parseLong(txtCod.getText()), txtNome.getText(), txtFone.getText(),
                     txtEmail.getText(), txtEnd.getText());
+            associadoController.update(edit);
         }
-        
-        associadoController.registry(novo);
         setClean();
         setCadastrando(false);
         atualizarTabela();

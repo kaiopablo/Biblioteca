@@ -6,6 +6,7 @@
 package Utils;
 
 import VO.Emprestimo;
+import VO.Livro;
 import VO.ValueObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,7 +17,7 @@ import java.util.Date;
  *
  * @author Luan
  */
-public class EmprestimoTableModel extends CTableModel{
+public class LivroTableModel extends CTableModel{
     
     /**
      * Retorna quantidade de colunas da tabela.
@@ -37,13 +38,13 @@ public class EmprestimoTableModel extends CTableModel{
       switch(col)
       {
           case 0:
-              return "Empréstimo";
+              return "Código";
           case 1:
-              return "Previsão";
+              return "ISBN";
           case 2:
-              return "Associado";
+              return "Título";
           case 3:
-              return "Livro";
+              return "Editora";
           default:
               return "";
       }
@@ -58,21 +59,19 @@ public class EmprestimoTableModel extends CTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex >= 4)return null;
-        ArrayList<ValueObject> emps = this.getDados();
-        if(rowIndex >= emps.size())return null;
-        Emprestimo emp = (Emprestimo)emps.get(rowIndex);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
+        ArrayList<ValueObject> tabela = this.getDados();
+        if(rowIndex >= tabela.size())return null;
+        Livro dado = (Livro)tabela.get(rowIndex);
         switch(columnIndex)
         {
             case 0:
-                return dateFormat.format(emp.getData());
+                return dado.getId();
             case 1:
-                return dateFormat.format(emp.getPrevisao());
+                return dado.getIsbn();
             case 2:
-                return emp.getAssociado().getNome();
+                return dado.getTitulo();
             case 3:
-                return emp.getLivro().getTitulo();
+                return dado.getEditora();
         }
         return null;
     }

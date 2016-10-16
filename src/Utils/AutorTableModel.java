@@ -1,7 +1,7 @@
 package Utils;
 
-import persistence.DAO.Autor;
-import persistence.DAO.DBObject;
+import VO.Autor;
+import VO.ValueObject;
 import java.util.ArrayList;
 
 /**
@@ -10,33 +10,6 @@ import java.util.ArrayList;
  */
 public class AutorTableModel extends CTableModel{
 
-    /**
-     * Retorna lista de autores filtrada.
-     * @return ArrayList<Autor>
-     */
-    private ArrayList<Autor> getAutoresFiltrado()
-    {
-        ArrayList<Autor> autores = new ArrayList<>();
-        int i;
-        ArrayList<DBObject> dados = this.getDados();
-        for(i=0;i<dados.size(); i++){
-            Autor aut = (Autor)dados.get(i);
-            if(this.getFiltro().equals("") || aut.getNome().contains(this.getFiltro())){
-                autores.add(aut);
-            }
-        }
-        return autores;
-    }
-    
-    /**
-     * Retorna quantidade de dados da tabela, com filtro aplicado.
-     * @return int quantidade de dados.
-     */
-    @Override
-    public int getRowCount() {
-        if(this.getFiltro().equals(""))return this.getDados().size();
-        return this.getAutoresFiltrado().size();
-    }
 
     /**
      * Retorna quantidade de colunas da tabela.
@@ -74,10 +47,10 @@ public class AutorTableModel extends CTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex >= 2)return null;
-        ArrayList<Autor> autores = this.getAutoresFiltrado();
+        ArrayList<ValueObject> autores = this.getDados();
         if(rowIndex >= autores.size())return null;
-        Autor aut = autores.get(rowIndex);
-        return (columnIndex == 0) ? aut.getChavePrimaria() : aut.getNome();
+        Autor aut = (Autor)autores.get(rowIndex);
+        return (columnIndex == 0) ? aut.getId() : aut.getNome();
     }
     
 }

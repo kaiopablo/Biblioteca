@@ -33,6 +33,24 @@ public class Livro extends ValueObject implements Serializable {
     private String localEdicao;
     private String numeroExemplares;
     private String titulo;
+    
+    
+    public Livro(Long id, String isbn, String editora, String localEdicao, String numeroExemplares, String titulo) { 
+        this.setId(id); 
+        this.isbn = isbn;
+        this.editora = editora; 
+        this.localEdicao = localEdicao; 
+        this.numeroExemplares = numeroExemplares; 
+        this.titulo = titulo; 
+    } 
+    
+    public Livro(String isbn, String editora, String localEdicao, String numeroExemplares, String titulo) { 
+        this.isbn = isbn;
+        this.editora = editora; 
+        this.localEdicao = localEdicao; 
+        this.numeroExemplares = numeroExemplares; 
+        this.titulo = titulo; 
+    } 
 
     @Override
     public long getId() {

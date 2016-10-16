@@ -5,18 +5,15 @@
  */
 package Utils;
 
-import VO.Emprestimo;
+import VO.Associado;
 import VO.ValueObject;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
  * @author Luan
  */
-public class EmprestimoTableModel extends CTableModel{
+public class AssociadoTableModel extends CTableModel{
     
     /**
      * Retorna quantidade de colunas da tabela.
@@ -24,7 +21,7 @@ public class EmprestimoTableModel extends CTableModel{
      */
     @Override
     public int getColumnCount() {
-        return 4;
+        return 3;
     }
     
     /**
@@ -37,13 +34,11 @@ public class EmprestimoTableModel extends CTableModel{
       switch(col)
       {
           case 0:
-              return "Empréstimo";
+              return "Codigo";
           case 1:
-              return "Previsão";
+              return "Nome";
           case 2:
-              return "Associado";
-          case 3:
-              return "Livro";
+              return "Fone";
           default:
               return "";
       }
@@ -57,22 +52,18 @@ public class EmprestimoTableModel extends CTableModel{
      */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if(columnIndex >= 4)return null;
-        ArrayList<ValueObject> emps = this.getDados();
-        if(rowIndex >= emps.size())return null;
-        Emprestimo emp = (Emprestimo)emps.get(rowIndex);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
+        if(columnIndex >= 3)return null;
+        ArrayList<ValueObject> tabela = this.getDados();
+        if(rowIndex >= tabela.size())return null;
+        Associado ass = (Associado)tabela.get(rowIndex);
         switch(columnIndex)
         {
             case 0:
-                return dateFormat.format(emp.getData());
+                return ass.getId();
             case 1:
-                return dateFormat.format(emp.getPrevisao());
+                return ass.getNome();
             case 2:
-                return emp.getAssociado().getNome();
-            case 3:
-                return emp.getLivro().getTitulo();
+                return ass.getTelefone();
         }
         return null;
     }

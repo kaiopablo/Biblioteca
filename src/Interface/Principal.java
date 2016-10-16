@@ -5,7 +5,15 @@
  */
 package Interface;
 
+import Utils.AssociadoTableModel;
 import Utils.EmprestimoTableModel;
+import VO.Associado;
+import VO.Emprestimo;
+import VO.ValueObject;
+import controller.AssociadoController;
+import controller.EmprestimoController;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,11 +21,49 @@ import Utils.EmprestimoTableModel;
  */
 public class Principal extends javax.swing.JFrame {
 
+    private AssociadoController associadoController;
+    private EmprestimoController emprestimoController;
+    
+    public void atualizarTabelaAssociado() {
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Associado ac : (List<Associado>) associadoController.search()) {
+            if(txtBAss.getText().equals("") || ac.getNome().contains(txtBAss.getText())){
+                lista.add(ac);
+            }
+        }
+        AssociadoTableModel tabela = (AssociadoTableModel)(tbAss.getModel());
+        tabela.setDados(lista);
+        tabela.fireTableDataChanged();
+    }
+    
+    public void atualizarTabelaEmprestimo()
+    {
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Emprestimo ac : (List<Emprestimo>) emprestimoController.search()) {
+            if(ac.getDevolucao() != null)
+            if(txtBEmp.getText().equals("") || ac.getLivro().getTitulo().contains(txtBEmp.getText()) ||
+                    ac.getLivro().getIsbn().contains(txtBEmp.getText()) || ac.getAssociado().getNome().contains(txtBEmp.getText())){
+                lista.add(ac);
+            }
+        }
+        EmprestimoTableModel tabela = (EmprestimoTableModel)(tbEmp.getModel());
+        tabela.setDados(lista);
+        tabela.fireTableDataChanged();
+    }
+    
+    public void setClean()
+    {
+        txtBAss.setText("");
+        txtBEmp.setText("");
+    }
+    
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+        //associadoController = new AssociadoController();
+        //emprestimoController = new EmprestimoController();
     }
 
     /**
@@ -35,9 +81,9 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbAss = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        txtFiltroAss = new javax.swing.JTextField();
+        txtBAss = new javax.swing.JTextField();
         btnFiltroAss = new javax.swing.JButton();
-        txtFiltroEmpr = new javax.swing.JTextField();
+        txtBEmp = new javax.swing.JTextField();
         btnFiltroEmp = new javax.swing.JButton();
         mainMenuBar = new javax.swing.JMenuBar();
         menuCadastros = new javax.swing.JMenu();
@@ -45,6 +91,7 @@ public class Principal extends javax.swing.JFrame {
         menuLivros = new javax.swing.JMenuItem();
         menuAutores = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        menuEmprestimo = new javax.swing.JMenuItem();
         menuSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -54,24 +101,19 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1.setText("Empréstimos esperando devolução:");
 
-        tbAss.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tbAss.setModel(new AssociadoTableModel());
         jScrollPane2.setViewportView(tbAss);
 
         jLabel2.setText("Associados cadastrados:");
 
-        btnFiltroAss.setText("Filtrar");
+        btnFiltroAss.setText("Buscar");
 
-        btnFiltroEmp.setText("Filtrar");
+        btnFiltroEmp.setText("Buscar");
+        btnFiltroEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltroEmpActionPerformed(evt);
+            }
+        });
 
         menuCadastros.setText("Cadastros");
 
@@ -100,6 +142,14 @@ public class Principal extends javax.swing.JFrame {
         menuCadastros.add(menuAutores);
         menuCadastros.add(jSeparator1);
 
+        menuEmprestimo.setText("Realizar empréstimo");
+        menuEmprestimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEmprestimoActionPerformed(evt);
+            }
+        });
+        menuCadastros.add(menuEmprestimo);
+
         menuSair.setText("Sair");
         menuSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,18 +173,18 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtFiltroEmpr, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                        .addComponent(txtBEmp, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFiltroEmp))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtFiltroAss)
+                        .addComponent(txtBAss)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFiltroAss)))
                 .addContainerGap())
@@ -148,9 +198,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFiltroEmpr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFiltroEmp)
-                    .addComponent(txtFiltroAss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBAss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFiltroAss))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,6 +227,14 @@ public class Principal extends javax.swing.JFrame {
     private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
         System.exit(0);
     }//GEN-LAST:event_menuSairActionPerformed
+
+    private void menuEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEmprestimoActionPerformed
+        new RealizarEmprestimo(this, true).setVisible(true);
+    }//GEN-LAST:event_menuEmprestimoActionPerformed
+
+    private void btnFiltroEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroEmpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFiltroEmpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,11 +283,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAssociados;
     private javax.swing.JMenuItem menuAutores;
     private javax.swing.JMenu menuCadastros;
+    private javax.swing.JMenuItem menuEmprestimo;
     private javax.swing.JMenuItem menuLivros;
     private javax.swing.JMenuItem menuSair;
     private javax.swing.JTable tbAss;
     private javax.swing.JTable tbEmp;
-    private javax.swing.JTextField txtFiltroAss;
-    private javax.swing.JTextField txtFiltroEmpr;
+    private javax.swing.JTextField txtBAss;
+    private javax.swing.JTextField txtBEmp;
     // End of variables declaration//GEN-END:variables
 }

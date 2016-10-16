@@ -1,6 +1,6 @@
 package Utils;
 
-import persistence.DAO.DBObject;
+import VO.ValueObject;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
@@ -9,20 +9,18 @@ import javax.swing.table.AbstractTableModel;
  * @author luan
  */
 public abstract class CTableModel extends AbstractTableModel{
-    private ArrayList<DBObject> dados;
-    private String filtro;    
+    private ArrayList<ValueObject> dados;
     
     public CTableModel()
     {
         dados = new ArrayList<>();
-        filtro = "";
     }
     
     /**
      * Substitui a lista de dados da tabela.
      * @param dados 
      */
-    public void setDados(ArrayList<DBObject> dados)
+    public void setDados(ArrayList<ValueObject> dados)
     {
         this.dados = dados;
         this.fireTableDataChanged();
@@ -32,36 +30,35 @@ public abstract class CTableModel extends AbstractTableModel{
      * Adiciona um novo dado à tabela.
      * @param dado 
      */
-    public void addDado(DBObject dado)
+    public void addDado(ValueObject dado)
     {
         this.dados.add(dado);
-        this.fireTableDataChanged();
+    }
+    
+    public void remDado(ValueObject dado)
+    {
+        this.dados.remove(dado);
+    }
+    
+    public void clearDados()
+    {
+        this.dados.clear();
     }
     
     /**
-     * Filtra os dados a serem exibidos na tabela.
-     * @param filtro 
+     * Retorna quantidade de dados da tabela, com filtro aplicado.
+     * @return int quantidade de dados.
      */
-    public void filtrarDados(String filtro)
-    {
-        this.filtro = filtro;
-        this.fireTableDataChanged();
+    @Override
+    public int getRowCount() {
+        return this.getDados().size();
     }
-    
-    /**
-     * Retorna o filtro utilizado.
-     * @return 
-     */
-    public String getFiltro()
-    {
-        return filtro;
-    }
-    
+        
     /**
      * Retorna todos os dados da tabela.
      * @return 
      */
-    public ArrayList<DBObject> getDados()
+    public ArrayList<ValueObject> getDados()
     {
         return dados;
     }

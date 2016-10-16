@@ -34,6 +34,7 @@ public class Livro extends ValueObject implements Serializable {
     private String numeroExemplares;
     private String titulo;
     
+    public Livro(){}
     
     public Livro(Long id, String isbn, String editora, String localEdicao, String numeroExemplares, String titulo) { 
         this.setId(id); 

@@ -39,7 +39,7 @@ public class Emprestimo extends ValueObject implements Serializable {
     private Livro livro;
     
     
-
+    public Emprestimo(){}
     @Override
     public long getId() {
         return this.getId_emprestimo();

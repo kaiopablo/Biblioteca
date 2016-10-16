@@ -33,6 +33,8 @@ public class Associado extends ValueObject implements Serializable {
     private String email;
     private String endereco;
 
+    public Associado(){}
+    
     public Associado(Long id, String nome, String telefone, String email, String endereco) { 
         this.setId(id); 
         this.nome = nome; 

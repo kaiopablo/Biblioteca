@@ -36,6 +36,7 @@ public class Autoria extends ValueObject implements Serializable {
     @ManyToOne
     private Livro livro;
 
+    public Autoria(){}
     @Override
     public long getId() {
         return this.getId_autoria();

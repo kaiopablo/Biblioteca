@@ -27,6 +27,8 @@ public class Autor extends ValueObject implements Serializable {
     private long id_autor;
     private String nome;
     
+    public Autor(){}
+    
     public Autor(String nome)
     {
         this.nome = nome;

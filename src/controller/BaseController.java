@@ -39,7 +39,14 @@ public class BaseController {
             case ASSOCIADO:
                 setBasePersDAO(DAOFactory.buscarInstancia().getAssociadoPersDAO());
                 break;
-
+            case AUTOR:
+                setBasePersDAO(DAOFactory.buscarInstancia().getAutorPersDAO());
+            case AUTORIA:
+                setBasePersDAO(DAOFactory.buscarInstancia().getAutoriaPersDAO());
+            case LIVRO:
+                setBasePersDAO(DAOFactory.buscarInstancia().getLivroPersDAO());
+            case EMPRESTIMO:
+                setBasePersDAO(DAOFactory.buscarInstancia().getEmprestimoPersDAO());
             default:
                 break;
                 

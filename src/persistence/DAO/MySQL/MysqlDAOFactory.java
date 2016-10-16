@@ -37,6 +37,22 @@ public class MysqlDAOFactory extends DAOFactory{
         return new AssociadoPersDAOMySQL();
     }
     
+    public AutorPersDAO getAutorPersDAO(){
+        return new AutorPersDAOMySQL();
+    }
+    
+    public AutoriaPersDAO getAutoriaPersDAO(){
+        return new AutoriaPersDAOMySQL();
+    }
+    
+    public LivroPersDAO getLivroPersDAO(){
+        return new LivroPersDAOMySQL();
+    }
+    
+    public EmprestimoPersDAO getEmprestimoPersDAO(){
+        return new EmprestimoPersDAOMySQL();
+    }
+    
     public static void closeStatement(Statement s) {
         try {
             if (s != null) {

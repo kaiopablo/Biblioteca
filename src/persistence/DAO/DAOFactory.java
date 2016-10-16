@@ -17,7 +17,10 @@ public abstract class DAOFactory {
     public static final int MYSQL = 1;
     
     public abstract AssociadoPersDAO getAssociadoPersDAO();
-
+    public abstract LivroPersDAO getLivroPersDAO();
+    public abstract AutorPersDAO getAutorPersDAO();
+    public abstract AutoriaPersDAO getAutoriaPersDAO();
+    public abstract EmprestimoPersDAO getEmprestimoPersDAO();
 
     public static DAOFactory getInstance(int factory) {
         

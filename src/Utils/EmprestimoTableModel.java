@@ -1,31 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Utils;
 
-import Database.Autor;
+import Database.Emprestimo;
 import Database.DBObject;
 import java.util.ArrayList;
 
 /**
  *
- * @author luan
+ * @author Luan
  */
-public class AutorTableModel extends CTableModel{
+public class EmprestimoTableModel extends CTableModel{
 
-    /**
+    
+        /**
      * Retorna lista de autores filtrada.
      * @return ArrayList<Autor>
      */
-    private ArrayList<Autor> getAutoresFiltrado()
+    private ArrayList<Emprestimo> getEmprestimosFiltrado()
     {
-        ArrayList<Autor> autores = new ArrayList<>();
+        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
         int i;
         ArrayList<DBObject> dados = this.getDados();
         for(i=0;i<dados.size(); i++){
-            Autor aut = (Autor)dados.get(i);
-            if(this.getFiltro().equals("") || aut.getNome().contains(this.getFiltro())){
-                autores.add(aut);
+            Emprestimo emp = (Emprestimo)dados.get(i);
+            if(this.getFiltro().equals("") || emp.getNome().contains(this.getFiltro())){
+                emprestimos.add(emp);
             }
         }
-        return autores;
+        return emprestimos;
     }
     
     /**
@@ -35,7 +41,7 @@ public class AutorTableModel extends CTableModel{
     @Override
     public int getRowCount() {
         if(this.getFiltro().equals(""))return this.getDados().size();
-        return this.getAutoresFiltrado().size();
+        return this.getEmprestimosFiltrado().size();
     }
 
     /**
@@ -44,7 +50,7 @@ public class AutorTableModel extends CTableModel{
      */
     @Override
     public int getColumnCount() {
-        return 2;
+        return 4;
     }
     
     /**
@@ -57,9 +63,13 @@ public class AutorTableModel extends CTableModel{
       switch(col)
       {
           case 0:
-              return "Codigo";
+              return "Data do empréstimo";
           case 1:
-              return "Nome";
+              return "Previsão de devolução";
+          case 2:
+              return "Associado";
+          case 3:
+              return "Livro";
           default:
               return "";
       }
@@ -74,10 +84,10 @@ public class AutorTableModel extends CTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex >= 2)return null;
-        ArrayList<Autor> autores = this.getAutoresFiltrado();
-        if(rowIndex >= autores.size())return null;
-        Autor aut = autores.get(rowIndex);
-        return (columnIndex == 0) ? aut.getChavePrimaria() : aut.getNome();
+        ArrayList<Emprestimo> emps = this.getEmprestimosFiltrado();
+        if(rowIndex >= emps.size())return null;
+        Emprestimo emp = emps.get(rowIndex);
+        return (columnIndex == 0) ? emp.getChavePrimaria() : emp.getNome();
     }
-    
 }
+    

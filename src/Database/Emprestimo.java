@@ -1,15 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Database;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author luan
+ * @author Luan
  */
-public class Autor extends DBObject{
+public class Emprestimo extends DBObject{
     private String nome;
     
-    public Autor(int cod, String nome) {
+    public Emprestimo(int cod, String nome) {
         super(cod);
         this.nome = nome;
     }
@@ -29,7 +34,7 @@ public class Autor extends DBObject{
      * @param chaveprimaria
      * @return objeto contendo os dados ou null.
      */
-    public static Autor Buscar(Object chaveprimaria) {
+    public static Emprestimo Buscar(Object chaveprimaria) {
         if(chaveprimaria instanceof Integer){
             //Implementar busca em SQL;   
         }
@@ -41,8 +46,8 @@ public class Autor extends DBObject{
      * @param filtro
      * @return ArrayList de objetos
      */
-    public static ArrayList<Autor> Buscar(String filtro) {
-        ArrayList<Autor> lista = new ArrayList<>();
+    public static ArrayList<Emprestimo> Buscar(String filtro) {
+        ArrayList<Emprestimo> lista = new ArrayList<>();
         return lista;
     }
 

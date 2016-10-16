@@ -1,5 +1,7 @@
 package Database;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author luan
@@ -16,20 +18,6 @@ public abstract class DBObject {
     {
         return this.chaveprimaria;
     }
-    
-    /**
-     * Busca o objeto por chave primaria.
-     * @param chaveprimaria
-     * @return objeto contendo os dados ou null.
-     */
-    public abstract DBObject Buscar(Object chaveprimaria);
-    
-    /**
-     * Busca o primeiro objeto contendo o nome informado.
-     * @param nome
-     * @return objeto contendo os dados ou null.
-     */
-    public abstract DBObject Buscar(String nome);
     
     /**
      * Excluir o objeto do banco de dados.

@@ -6,8 +6,10 @@
 package Interface;
 
 import Utils.LivroTableModel;
+import VO.Autoria;
 import VO.Livro;
 import VO.ValueObject;
+import controller.AutoriaController;
 import controller.LivroController;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,11 @@ import java.util.List;
 public class CadLivros extends javax.swing.JDialog {
 
     private final LivroController livroController = new LivroController();
+    private final AutoriaController autoriaController = new AutoriaController();
+    
+    private ArrayList<Autoria> newlistaAutoria = new ArrayList<>();
+    private ArrayList<Autoria> oldlistaAutoria = new ArrayList<>();
+    
     
     private void setCadastrando(boolean cadastrando)
     {
@@ -46,6 +53,8 @@ public class CadLivros extends javax.swing.JDialog {
         txtEdit.setText("");
         txtLocal.setText("");
         txtNumero.setText("");
+        oldlistaAutoria.clear();
+        newlistaAutoria.clear();
     }
     
     private void atualizarTabela()
@@ -311,11 +320,13 @@ public class CadLivros extends javax.swing.JDialog {
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         setCadastrando(true);
         setClean();
+        btnAutores.setEnabled(false);
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(tbDados.getSelectedRowCount() != 0){
             setCadastrando(true);
+            setClean();
             LivroTableModel tabela = (LivroTableModel)(tbDados.getModel());
             Livro selected = (Livro)tabela.getDados().get(tbDados.getSelectedRow());
             txtCod.setText(String.valueOf(selected.getId()));
@@ -324,6 +335,9 @@ public class CadLivros extends javax.swing.JDialog {
             txtEdit.setText(selected.getEditora());
             txtLocal.setText(selected.getLocalEdicao());
             txtNumero.setText(selected.getNumeroExemplares());
+            oldlistaAutoria = autoriaController.getListAutoria(selected);
+            newlistaAutoria = autoriaController.getListAutoria(selected);
+            btnAutores.setEnabled(true);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -348,6 +362,33 @@ public class CadLivros extends javax.swing.JDialog {
         } else {
             Livro edit = new Livro(Long.parseLong(txtCod.getText()), txtISBN.getText(), txtEdit.getText(), txtLocal.getText(), txtNumero.getText(), txtTitulo.getText());
             livroController.update(edit);
+            ArrayList<Autoria> remover = new ArrayList<>();
+            ArrayList<Autoria> adicionar = new ArrayList<>();
+            for(Autoria novalista : newlistaAutoria){
+                boolean igual = false;
+                for(Autoria velhalista : oldlistaAutoria){
+                    if(velhalista.getAutor().getId() == novalista.getAutor().getId()){
+                        igual = true;
+                        break;
+                    }
+                }
+                if(!igual){
+                    novalista.setLivro(edit);
+                    adicionar.add(novalista);
+                }
+            }
+            for(Autoria velhalista : oldlistaAutoria){
+                boolean igual = false;
+                for(Autoria novalista : newlistaAutoria){
+                    if(velhalista.getAutor().getId() == novalista.getAutor().getId()){
+                        igual = true;
+                        break;
+                    }
+                }
+                if(!igual)remover.add(velhalista);
+            }
+            for(Autoria rem : remover)autoriaController.delete(rem);
+            for(Autoria add : adicionar)autoriaController.registry(add);
         }
         setClean();
         setCadastrando(false);
@@ -360,7 +401,7 @@ public class CadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutoresActionPerformed
-        //Abrir lista de autores.
+        new SelecionarAutores(null, true, newlistaAutoria).setVisible(true);
     }//GEN-LAST:event_btnAutoresActionPerformed
 
 

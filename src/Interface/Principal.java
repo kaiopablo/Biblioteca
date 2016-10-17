@@ -5,28 +5,35 @@
  */
 package Interface;
 
-import Utils.AssociadoTableModel;
+import Utils.AssociadoTPTableModel;
+import Utils.AssociadoTPTableModel.DadosAssociado;
 import Utils.EmprestimoTableModel;
 import VO.Associado;
 import VO.Emprestimo;
 import VO.ValueObject;
 import controller.AssociadoController;
 import controller.EmprestimoController;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  *
  * @author Luan
  */
 public class Principal extends javax.swing.JFrame {
-
     private final AssociadoController associadoController;
     private final EmprestimoController emprestimoController;
     
     public void atualizarTabelaAssociado() {
-        AssociadoTableModel tabela = (AssociadoTableModel)(tbAss.getModel());
-        tabela.setDados(associadoController.getListAssociado(txtBAss.getText()));
+        AssociadoTPTableModel tabela = (AssociadoTPTableModel)(tbAss.getModel());
+        tabela.clear();
+        for(ValueObject vo : associadoController.getListAssociado(txtBAss.getText())){
+            Associado selected = (Associado)vo;
+            DadosAssociado dado;
+            dado = new DadosAssociado(selected.getId(), selected.getNome(), 
+                                      emprestimoController.getLivrosEmprestando(selected));
+            tabela.addDado(dado);
+        }
         tabela.fireTableDataChanged();
     }
     
@@ -49,6 +56,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        tbEmp.setComponentPopupMenu(pupEmprestimo);
         associadoController = new AssociadoController();
         emprestimoController = new EmprestimoController();
         atualizarTabelaAssociado();
@@ -64,6 +72,8 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pupEmprestimo = new javax.swing.JPopupMenu();
+        menuDevolucao = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbEmp = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -83,6 +93,14 @@ public class Principal extends javax.swing.JFrame {
         menuEmprestimo = new javax.swing.JMenuItem();
         menuSair = new javax.swing.JMenuItem();
 
+        menuDevolucao.setText("Realizar Devolução");
+        menuDevolucao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDevolucaoActionPerformed(evt);
+            }
+        });
+        pupEmprestimo.add(menuDevolucao);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tbEmp.setModel(new EmprestimoTableModel());
@@ -90,7 +108,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1.setText("Empréstimos esperando devolução:");
 
-        tbAss.setModel(new AssociadoTableModel());
+        tbAss.setModel(new AssociadoTPTableModel());
         jScrollPane2.setViewportView(tbAss);
 
         jLabel2.setText("Associados cadastrados:");
@@ -234,6 +252,14 @@ public class Principal extends javax.swing.JFrame {
         atualizarTabelaAssociado();
     }//GEN-LAST:event_btnFiltroAssActionPerformed
 
+    private void menuDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDevolucaoActionPerformed
+        if(tbEmp.getSelectedRowCount() != 0){
+            EmprestimoTableModel tb = (EmprestimoTableModel)tbEmp.getModel();
+            Emprestimo emp = (Emprestimo)tb.getDados().get(tbEmp.getSelectedRow());
+            new RealizarDevolucao(this, true, emp).setVisible(true);
+        }
+    }//GEN-LAST:event_menuDevolucaoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -281,9 +307,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAssociados;
     private javax.swing.JMenuItem menuAutores;
     private javax.swing.JMenu menuCadastros;
+    private javax.swing.JMenuItem menuDevolucao;
     private javax.swing.JMenuItem menuEmprestimo;
     private javax.swing.JMenuItem menuLivros;
     private javax.swing.JMenuItem menuSair;
+    private javax.swing.JPopupMenu pupEmprestimo;
     private javax.swing.JTable tbAss;
     private javax.swing.JTable tbEmp;
     private javax.swing.JTextField txtBAss;

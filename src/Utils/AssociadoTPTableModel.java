@@ -13,12 +13,12 @@ import javax.swing.table.AbstractTableModel;
  * @author luan
  */
 public class AssociadoTPTableModel extends AbstractTableModel{    
-    public class DadosAssociado{
-        private int cod;
+    public static class DadosAssociado{
+        private long cod;
         private String nome;
         private int qtdEmp;
         
-        public DadosAssociado(int cod, String nome, int qtdEmprestimos)
+        public DadosAssociado(long cod, String nome, int qtdEmprestimos)
         {
             this.cod = cod;
             this.nome = nome;
@@ -28,14 +28,14 @@ public class AssociadoTPTableModel extends AbstractTableModel{
         /**
          * @return the cod
          */
-        public int getCodigo() {
+        public long getCodigo() {
             return cod;
         }
 
         /**
          * @param cod the cod to set
          */
-        public void setCodigo(int cod) {
+        public void setCodigo(long cod) {
             this.cod = cod;
         }
 

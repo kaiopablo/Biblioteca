@@ -6,7 +6,9 @@
 package Interface;
 
 import VO.Emprestimo;
+import controller.EmprestimoController;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,12 +18,15 @@ import java.util.Date;
  */
 public class RealizarDevolucao extends javax.swing.JDialog {
 
+    private final EmprestimoController emprestimoController = new EmprestimoController();
     private Emprestimo emprestimo;
+    private Principal telaP;
     /**
      * Creates new form RealizarDevolucao
      */
     public RealizarDevolucao(java.awt.Frame parent, boolean modal, Emprestimo emprestimo) {
         super(parent, modal);
+        telaP = (Principal)parent;
         initComponents();
         this.setLocationRelativeTo(null);
         this.emprestimo = emprestimo;
@@ -35,6 +40,14 @@ public class RealizarDevolucao extends javax.swing.JDialog {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         txtData2.setText(dateFormat.format(date));
+        txtCod.setText(String.valueOf(emprestimo.getAssociado().getId()));
+        txtNome.setText(emprestimo.getAssociado().getNome());
+        txtISBN.setText(emprestimo.getLivro().getIsbn());
+        txtTitulo.setText(emprestimo.getLivro().getTitulo());
+        txtData1.setText(dateFormat.format(emprestimo.getData()));
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        String moneyString = formatter.format(emprestimoController.calcularMulta(emprestimo, date));
+        txtMulta.setText(moneyString);
     }
 
     /**
@@ -182,7 +195,11 @@ public class RealizarDevolucao extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        // TODO add your handling code here:
+        emprestimo.setDevolucao(new Date());
+        emprestimoController.update(emprestimo);
+        telaP.atualizarTabelaEmprestimo();
+        telaP.atualizarTabelaAssociado();
+        this.dispose();
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
 

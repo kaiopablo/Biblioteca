@@ -268,6 +268,7 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
         emprestimoController.registry(emp);
         telaPrincipal.setClean();
         telaPrincipal.atualizarTabelaEmprestimo();
+        telaPrincipal.atualizarTabelaAssociado();
         this.dispose();
     }//GEN-LAST:event_btnEmprestarActionPerformed
 

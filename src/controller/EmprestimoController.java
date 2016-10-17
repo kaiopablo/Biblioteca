@@ -6,7 +6,14 @@
 package controller;
 
 
+import VO.Associado;
+import VO.Emprestimo;
+import VO.ValueObject;
 import static controller.Util.TypeData.*;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -19,6 +26,38 @@ public class EmprestimoController extends BaseController {
     {
         super(EMPRESTIMO);
     }
+    
+    public int getLivrosEmprestando(Associado associado)
+    {
+        int qtd = 0;
+        for (Emprestimo ac : (List<Emprestimo>) this.search()) {
+            if(ac.getDevolucao() == null)
+            if(ac.getAssociado().getId() == associado.getId())qtd++;
+        }
+        return qtd;
+    }
 
-
+    public double calcularMulta(Emprestimo emprestimo, Date entrega)
+    {
+        int Dias = Utils.Functions.daysBetween(emprestimo.getPrevisao(), entrega);
+        System.out.println(Dias);
+        if(Dias > 0){
+            return Dias * 1.00;
+        }else{
+            return 0;
+        }
+    }
+    
+    public ArrayList<ValueObject> getListEmprestimo(String filtro)
+    {
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Emprestimo ac : (List<Emprestimo>) this.search()) {
+            if(ac.getDevolucao() == null)
+            if(filtro.equals("") || ac.getLivro().getTitulo().contains(filtro) ||
+                    ac.getLivro().getIsbn().contains(filtro) || ac.getAssociado().getNome().toLowerCase().contains(filtro)){
+                lista.add(ac);
+            }
+        }
+        return lista;
+    }
 }

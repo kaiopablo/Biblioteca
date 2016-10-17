@@ -6,7 +6,11 @@
 package controller;
 
 
+import VO.Livro;
+import VO.ValueObject;
 import static controller.Util.TypeData.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,5 +24,15 @@ public class LivroController extends BaseController {
         super(LIVRO);
     }
 
+    public ArrayList<ValueObject> getListLivros(String filtro){
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Livro ac : (List<Livro>) this.search()) {
+            if(filtro.equals("") || ac.getTitulo().toLowerCase().contains(filtro) ||
+                    ac.getIsbn().toLowerCase().contains(filtro)){
+                lista.add(ac);
+            }
+        }
+        return lista;
+    }
 
 }

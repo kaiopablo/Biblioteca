@@ -23,6 +23,7 @@ public class RealizarDevolucao extends javax.swing.JDialog {
     public RealizarDevolucao(java.awt.Frame parent, boolean modal, Emprestimo emprestimo) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         this.emprestimo = emprestimo;
         txtCod.setEditable(false);
         txtNome.setEditable(false);
@@ -69,7 +70,6 @@ public class RealizarDevolucao extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Realizar devolução");
         setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
 
         jLabel1.setText("Associado:");
 

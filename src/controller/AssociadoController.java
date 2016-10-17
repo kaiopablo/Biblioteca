@@ -6,7 +6,7 @@
 package controller;
 
 import VO.Associado;
-import VO.Emprestimo;
+import VO.ValueObject;
 import static controller.Util.TypeData.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,5 +22,14 @@ public class AssociadoController extends BaseController {
         super(ASSOCIADO);
     }
 
+    public ArrayList<ValueObject> getListAssociado(String filtro){
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Associado ac : (List<Associado>) this.search()) {
+            if(filtro.equals("") || ac.getNome().toLowerCase().contains(filtro)){
+                lista.add(ac);
+            }
+        }
+        return lista;
+    }
 
 }

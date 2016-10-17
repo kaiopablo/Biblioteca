@@ -50,15 +50,8 @@ public class CadLivros extends javax.swing.JDialog {
     
     private void atualizarTabela()
     {
-        ArrayList<ValueObject> lista = new ArrayList<>();
-        for (Livro ac : (List<Livro>) livroController.search()) {
-            if(txtBuscar.getText().equals("") || ac.getTitulo().contains(txtBuscar.getText()) ||
-                    ac.getIsbn().contains(txtBuscar.getText())){
-                lista.add(ac);
-            }
-        }
         LivroTableModel tabela = (LivroTableModel)(tbDados.getModel());
-        tabela.setDados(lista);
+        tabela.setDados(livroController.getListLivros(txtBuscar.getText()));
         tabela.fireTableDataChanged();
     }
     
@@ -68,6 +61,7 @@ public class CadLivros extends javax.swing.JDialog {
     public CadLivros(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         txtCod.setEditable(false);
         txtCod.setEnabled(false);
         setCadastrando(false);
@@ -113,7 +107,6 @@ public class CadLivros extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Livros");
         setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
 
         jLabel1.setText("Buscar:");
 
@@ -226,7 +219,7 @@ public class CadLivros extends javax.swing.JDialog {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(11, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnCadLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(jLabel2)

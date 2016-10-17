@@ -21,33 +21,19 @@ import java.util.List;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private AssociadoController associadoController;
-    private EmprestimoController emprestimoController;
+    private final AssociadoController associadoController;
+    private final EmprestimoController emprestimoController;
     
     public void atualizarTabelaAssociado() {
-        ArrayList<ValueObject> lista = new ArrayList<>();
-        for (Associado ac : (List<Associado>) associadoController.search()) {
-            if(txtBAss.getText().equals("") || ac.getNome().contains(txtBAss.getText())){
-                lista.add(ac);
-            }
-        }
         AssociadoTableModel tabela = (AssociadoTableModel)(tbAss.getModel());
-        tabela.setDados(lista);
+        tabela.setDados(associadoController.getListAssociado(txtBAss.getText()));
         tabela.fireTableDataChanged();
     }
     
     public void atualizarTabelaEmprestimo()
     {
-        ArrayList<ValueObject> lista = new ArrayList<>();
-        for (Emprestimo ac : (List<Emprestimo>) emprestimoController.search()) {
-            if(ac.getDevolucao() != null)
-            if(txtBEmp.getText().equals("") || ac.getLivro().getTitulo().contains(txtBEmp.getText()) ||
-                    ac.getLivro().getIsbn().contains(txtBEmp.getText()) || ac.getAssociado().getNome().contains(txtBEmp.getText())){
-                lista.add(ac);
-            }
-        }
         EmprestimoTableModel tabela = (EmprestimoTableModel)(tbEmp.getModel());
-        tabela.setDados(lista);
+        tabela.setDados(emprestimoController.getListEmprestimo(txtBEmp.getText()));
         tabela.fireTableDataChanged();
     }
     
@@ -62,8 +48,11 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        //associadoController = new AssociadoController();
-        //emprestimoController = new EmprestimoController();
+        this.setLocationRelativeTo(null);
+        associadoController = new AssociadoController();
+        emprestimoController = new EmprestimoController();
+        atualizarTabelaAssociado();
+        atualizarTabelaEmprestimo();
     }
 
     /**
@@ -107,6 +96,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("Associados cadastrados:");
 
         btnFiltroAss.setText("Buscar");
+        btnFiltroAss.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltroAssActionPerformed(evt);
+            }
+        });
 
         btnFiltroEmp.setText("Buscar");
         btnFiltroEmp.addActionListener(new java.awt.event.ActionListener() {
@@ -233,8 +227,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuEmprestimoActionPerformed
 
     private void btnFiltroEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroEmpActionPerformed
-        // TODO add your handling code here:
+        atualizarTabelaEmprestimo();
     }//GEN-LAST:event_btnFiltroEmpActionPerformed
+
+    private void btnFiltroAssActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroAssActionPerformed
+        atualizarTabelaAssociado();
+    }//GEN-LAST:event_btnFiltroAssActionPerformed
 
     /**
      * @param args the command line arguments

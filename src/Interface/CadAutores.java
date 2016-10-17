@@ -41,14 +41,8 @@ public class CadAutores extends javax.swing.JDialog {
     
     private void atualizarTabela()
     {
-        ArrayList<ValueObject> lista = new ArrayList<>();
-        for (Autor ac : (List<Autor>) autorController.search()) {
-            if(txtBuscar.getText().equals("") || ac.getNome().contains(txtBuscar.getText())){
-                lista.add(ac);
-            }
-        }
         AutorTableModel tabela = (AutorTableModel)(tbDados.getModel());
-        tabela.setDados(lista);
+        tabela.setDados(autorController.getListAutores(txtBuscar.getText()));
         tabela.fireTableDataChanged();
     }
     
@@ -58,6 +52,7 @@ public class CadAutores extends javax.swing.JDialog {
     public CadAutores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         txtCod.setEditable(false);
         txtCod.setEnabled(false);
         setCadastrando(false);
@@ -94,7 +89,6 @@ public class CadAutores extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Autores");
         setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
 
         jLabel1.setText("Buscar:");
 

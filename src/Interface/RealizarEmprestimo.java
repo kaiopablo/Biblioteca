@@ -263,6 +263,10 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
         
         LivroTableModel tabela2 = (LivroTableModel)(tbLivro.getModel());
         Livro livro = (Livro)tabela2.getDados().get(tbLivro.getSelectedRow());
+        if(emprestimoController.isSemExemplares(livro)){
+            JOptionPane.showMessageDialog(null, "Esse livro não possui mais exemplares para emprestar!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         emp.setLivro(livro);
         
         emprestimoController.registry(emp);

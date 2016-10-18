@@ -8,9 +8,9 @@ package controller;
 
 import VO.Associado;
 import VO.Emprestimo;
+import VO.Livro;
 import VO.ValueObject;
 import static controller.Util.TypeData.*;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +35,17 @@ public class EmprestimoController extends BaseController {
             if(ac.getAssociado().getId() == associado.getId())qtd++;
         }
         return qtd;
+    }
+    
+    public boolean isSemExemplares(Livro livro)
+    {
+        int qtd = 0;
+        for (Emprestimo ac : (List<Emprestimo>) this.search()) {
+            if(ac.getDevolucao() == null)
+            if(ac.getLivro().getId() == livro.getId())qtd++;
+        }
+        if(livro.getNumeroExemplares() <= qtd)return true;
+        return false;
     }
 
     public double calcularMulta(Emprestimo emprestimo, Date entrega)

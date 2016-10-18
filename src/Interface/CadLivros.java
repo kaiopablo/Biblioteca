@@ -13,6 +13,7 @@ import controller.AutoriaController;
 import controller.LivroController;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -333,7 +334,7 @@ public class CadLivros extends javax.swing.JDialog {
             txtTitulo.setText(selected.getTitulo());
             txtEdit.setText(selected.getEditora());
             txtLocal.setText(selected.getLocalEdicao());
-            txtNumero.setText(selected.getNumeroExemplares());
+            txtNumero.setText(String.valueOf(selected.getNumeroExemplares()));
             oldlistaAutoria = autoriaController.getListAutoria(selected);
             newlistaAutoria = autoriaController.getListAutoria(selected);
         }
@@ -354,44 +355,49 @@ public class CadLivros extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Livro cadastro;
-        if (txtCod.getText().equals("")) {
-            cadastro = new Livro(txtISBN.getText(), txtEdit.getText(), txtLocal.getText(), txtNumero.getText(), txtTitulo.getText());
-            livroController.registry(cadastro);
-        } else {
-            cadastro = new Livro(Long.parseLong(txtCod.getText()), txtISBN.getText(), txtEdit.getText(), txtLocal.getText(), txtNumero.getText(), txtTitulo.getText());
-            livroController.update(cadastro);
-        }
-        ArrayList<Autoria> remover = new ArrayList<>();
-        ArrayList<Autoria> adicionar = new ArrayList<>();
-        for(Autoria novalista : newlistaAutoria){
-            boolean igual = false;
-            for(Autoria velhalista : oldlistaAutoria){
-                if(velhalista.getAutor().getId() == novalista.getAutor().getId()){
-                    igual = true;
-                    break;
-                }
+        try{
+            Livro cadastro;
+            if (txtCod.getText().equals("")) {
+                cadastro = new Livro(txtISBN.getText(), txtEdit.getText(), txtLocal.getText(), Integer.parseInt(txtNumero.getText()), txtTitulo.getText());
+                livroController.registry(cadastro);
+            } else {
+                cadastro = new Livro(Long.parseLong(txtCod.getText()), txtISBN.getText(), txtEdit.getText(), txtLocal.getText(), Integer.parseInt(txtNumero.getText()), txtTitulo.getText());
+                livroController.update(cadastro);
             }
-            if(!igual){
-                novalista.setLivro(cadastro);
-                adicionar.add(novalista);
-            }
-        }
-        for(Autoria velhalista : oldlistaAutoria){
-            boolean igual = false;
+            ArrayList<Autoria> remover = new ArrayList<>();
+            ArrayList<Autoria> adicionar = new ArrayList<>();
             for(Autoria novalista : newlistaAutoria){
-                if(velhalista.getAutor().getId() == novalista.getAutor().getId()){
-                    igual = true;
-                    break;
+                boolean igual = false;
+                for(Autoria velhalista : oldlistaAutoria){
+                    if(velhalista.getAutor().getId() == novalista.getAutor().getId()){
+                        igual = true;
+                        break;
+                    }
+                }
+                if(!igual){
+                    novalista.setLivro(cadastro);
+                    adicionar.add(novalista);
                 }
             }
-            if(!igual)remover.add(velhalista);
+            for(Autoria velhalista : oldlistaAutoria){
+                boolean igual = false;
+                for(Autoria novalista : newlistaAutoria){
+                    if(velhalista.getAutor().getId() == novalista.getAutor().getId()){
+                        igual = true;
+                        break;
+                    }
+                }
+                if(!igual)remover.add(velhalista);
+            }
+            for(Autoria rem : remover)autoriaController.delete(rem);
+            for(Autoria add : adicionar)autoriaController.registry(add);
+            setClean();
+            setCadastrando(false);
+            atualizarTabela();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage(), "Cadastro de livros", JOptionPane.ERROR_MESSAGE);
+            
         }
-        for(Autoria rem : remover)autoriaController.delete(rem);
-        for(Autoria add : adicionar)autoriaController.registry(add);
-        setClean();
-        setCadastrando(false);
-        atualizarTabela();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

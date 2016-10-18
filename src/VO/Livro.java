@@ -31,12 +31,12 @@ public class Livro extends ValueObject implements Serializable {
     private String isbn;
     private String editora;
     private String localEdicao;
-    private String numeroExemplares;
+    private int numeroExemplares;
     private String titulo;
     
     public Livro(){}
     
-    public Livro(Long id, String isbn, String editora, String localEdicao, String numeroExemplares, String titulo) { 
+    public Livro(Long id, String isbn, String editora, String localEdicao, int numeroExemplares, String titulo) { 
         this.setId(id); 
         this.isbn = isbn;
         this.editora = editora; 
@@ -45,7 +45,7 @@ public class Livro extends ValueObject implements Serializable {
         this.titulo = titulo; 
     } 
     
-    public Livro(String isbn, String editora, String localEdicao, String numeroExemplares, String titulo) { 
+    public Livro(String isbn, String editora, String localEdicao, int numeroExemplares, String titulo) { 
         this.isbn = isbn;
         this.editora = editora; 
         this.localEdicao = localEdicao; 
@@ -150,14 +150,14 @@ public class Livro extends ValueObject implements Serializable {
     /**
      * @return the numeroExemplares
      */
-    public String getNumeroExemplares() {
+    public int getNumeroExemplares() {
         return numeroExemplares;
     }
 
     /**
      * @param numeroExemplares the numeroExemplares to set
      */
-    public void setNumeroExemplares(String numeroExemplares) {
+    public void setNumeroExemplares(int numeroExemplares) {
         this.numeroExemplares = numeroExemplares;
     }
 

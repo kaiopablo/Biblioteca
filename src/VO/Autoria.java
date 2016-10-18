@@ -27,8 +27,8 @@ public class Autoria extends ValueObject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id_autoria;
-    private long id_livro;
-    private long id_autor;
+//    private long id_livro;
+//    private long id_autor;
     
     @ManyToOne
     private Autor autor;
@@ -64,30 +64,30 @@ public class Autoria extends ValueObject implements Serializable {
     /**
      * @return the id_livro
      */
-    public long getId_livro() {
-        return id_livro;
-    }
+//    public long getId_livro() {
+//        return id_livro;
+//    }
 
     /**
      * @param id_livro the id_livro to set
      */
-    public void setId_livro(long id_livro) {
-        this.id_livro = id_livro;
-    }
+//    public void setId_livro(long id_livro) {
+//        this.id_livro = id_livro;
+//    }
 
     /**
      * @return the id_autor
      */
-    public long getId_autor() {
-        return id_autor;
-    }
-
-    /**
-     * @param id_autor the id_autor to set
-     */
-    public void setId_autor(long id_autor) {
-        this.id_autor = id_autor;
-    }
+//    public long getId_autor() {
+//        return id_autor;
+//    }
+//
+//    /**
+//     * @param id_autor the id_autor to set
+//     */
+//    public void setId_autor(long id_autor) {
+//        this.id_autor = id_autor;
+//    }
 
     /**
      * @return the autor

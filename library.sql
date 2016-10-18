@@ -1,3 +1,6 @@
+CREATE DATABASE  IF NOT EXISTS `library` /*!40100 DEFAULT CHARACTER SET utf8 */; 
+USE `library`; 
+
 -- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
 --
 -- Host: 127.0.0.1    Database: library
@@ -35,7 +38,7 @@ CREATE TABLE `SEQUENCE` (
 
 LOCK TABLES `SEQUENCE` WRITE;
 /*!40000 ALTER TABLE `SEQUENCE` DISABLE KEYS */;
-INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',150);
+INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',300);
 /*!40000 ALTER TABLE `SEQUENCE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +65,7 @@ CREATE TABLE `associado` (
 
 LOCK TABLES `associado` WRITE;
 /*!40000 ALTER TABLE `associado` DISABLE KEYS */;
-INSERT INTO `associado` VALUES (51,'Vinicius Custodio','42 32380000','vinihcius.custodio@hotmail.com','Rua Pedro Beninca 164');
+INSERT INTO `associado` VALUES (51,'Vinicius Custodio','42 32380000','vinihcius.custodio@hotmail.com','Rua Pedro Beninca 164'),(206,'Associado 1','1234','associado@google.com','Rua Associado 163');
 /*!40000 ALTER TABLE `associado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +89,7 @@ CREATE TABLE `autor` (
 
 LOCK TABLES `autor` WRITE;
 /*!40000 ALTER TABLE `autor` DISABLE KEYS */;
-INSERT INTO `autor` VALUES (53,'Jose'),(54,'Carlos'),(55,'Paulo');
+INSERT INTO `autor` VALUES (53,'Jose'),(54,'Pedro'),(55,'Paulo');
 /*!40000 ALTER TABLE `autor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,6 +118,7 @@ CREATE TABLE `autoria` (
 
 LOCK TABLES `autoria` WRITE;
 /*!40000 ALTER TABLE `autoria` DISABLE KEYS */;
+INSERT INTO `autoria` VALUES (158,155,54),(160,155,53),(161,155,55),(162,154,53),(163,154,54),(164,154,55),(204,203,53);
 /*!40000 ALTER TABLE `autoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +150,7 @@ CREATE TABLE `emprestimo` (
 
 LOCK TABLES `emprestimo` WRITE;
 /*!40000 ALTER TABLE `emprestimo` DISABLE KEYS */;
-INSERT INTO `emprestimo` VALUES (101,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,2,51);
+INSERT INTO `emprestimo` VALUES (101,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',2,51),(156,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',154,51),(157,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',152,51),(205,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',203,51),(207,'2016-10-11 00:00:00','2016-10-17 00:00:00','2016-10-18 00:00:00',155,206),(251,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,2,51),(252,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',203,206),(253,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,203,206);
 /*!40000 ALTER TABLE `emprestimo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +166,7 @@ CREATE TABLE `livro` (
   `isbn` varchar(45) DEFAULT NULL,
   `editora` varchar(45) DEFAULT NULL,
   `localEdicao` varchar(45) DEFAULT NULL,
-  `numeroExemplares` varchar(45) DEFAULT NULL,
+  `numeroExemplares` int(11) DEFAULT NULL,
   `titulo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_livro`),
   UNIQUE KEY `isbn_UNIQUE` (`isbn`)
@@ -175,7 +179,7 @@ CREATE TABLE `livro` (
 
 LOCK TABLES `livro` WRITE;
 /*!40000 ALTER TABLE `livro` DISABLE KEYS */;
-INSERT INTO `livro` VALUES (2,'1234','asdfasdf','asdfadsf','10','asdfasd');
+INSERT INTO `livro` VALUES (2,'12345','Editora Um','Brasil',10,'Livro Livro'),(152,'99889','Editora Dois','Alemanha',23,'Livro 2'),(154,'34434','Editora Tres','Canada',10,'Livro Livro Livro'),(155,'51234','Editora Quatro','Cuba',10,'4 Livro'),(203,'19987','Editora Cinco','Brasil',1,'Titulo 1');
 /*!40000 ALTER TABLE `livro` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -188,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-18 10:03:27
+-- Dump completed on 2016-10-18 19:57:04

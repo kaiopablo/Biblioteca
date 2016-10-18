@@ -1,0 +1,18 @@
+Alunos:
+Vinicius Custodio - 1372475
+Kaio Pablo - 1347470
+Luan - 1373498
+
+Link git : https://github.com/kaiopablo/Biblioteca
+
+0. O projeto usa 2 bibliotecas EclipseLink JPA 2.1 e MySQL JDBC Driver. Removi elas do .zip, pois com elas o arquivo ultrapassa o tamanho permitido no moodle. Não é necessário fazer o download delas, são bibliotecas padrões disponíveis no Netbeans
+
+1. Use o arquivo library.sql para criar o banco de dados, só rodar o script no mysql.
+
+2. Certifique-se que seu mysql não possua senha.
+
+3. Caso ocorra algum erro na execução, possivelmente é o Persistence Unit file.
+ Correção persistence unit file.
+ 3.1 Dentro do pacote META-INF delete o arquivo que está lá.
+ 3.2 Crie um novo arquivo do tipo Persistence-Unit, configure com MySQL, usuário root e com a senha do seu mysql caso possua.
+

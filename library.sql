@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `library` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `library`;
 -- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
 --
 -- Host: 127.0.0.1    Database: library
@@ -16,6 +14,30 @@ USE `library`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `SEQUENCE`
+--
+
+DROP TABLE IF EXISTS `SEQUENCE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SEQUENCE` (
+  `SEQ_NAME` varchar(50) NOT NULL,
+  `SEQ_COUNT` decimal(38,0) DEFAULT NULL,
+  PRIMARY KEY (`SEQ_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SEQUENCE`
+--
+
+LOCK TABLES `SEQUENCE` WRITE;
+/*!40000 ALTER TABLE `SEQUENCE` DISABLE KEYS */;
+INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',150);
+/*!40000 ALTER TABLE `SEQUENCE` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `associado`
@@ -40,6 +62,7 @@ CREATE TABLE `associado` (
 
 LOCK TABLES `associado` WRITE;
 /*!40000 ALTER TABLE `associado` DISABLE KEYS */;
+INSERT INTO `associado` VALUES (51,'Vinicius Custodio','42 32380000','vinihcius.custodio@hotmail.com','Rua Pedro Beninca 164');
 /*!40000 ALTER TABLE `associado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,6 +86,7 @@ CREATE TABLE `autor` (
 
 LOCK TABLES `autor` WRITE;
 /*!40000 ALTER TABLE `autor` DISABLE KEYS */;
+INSERT INTO `autor` VALUES (53,'Jose'),(54,'Carlos'),(55,'Paulo');
 /*!40000 ALTER TABLE `autor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,12 +100,12 @@ DROP TABLE IF EXISTS `autoria`;
 CREATE TABLE `autoria` (
   `id_autoria` int(11) NOT NULL,
   `livro_id_livro` int(11) NOT NULL,
-  `pessoa_id_autor` int(11) NOT NULL,
+  `autor_id_autor` int(11) NOT NULL,
   PRIMARY KEY (`id_autoria`),
   KEY `fk_autor_livro_idx` (`livro_id_livro`),
-  KEY `fk_autor_pessoa1_idx` (`pessoa_id_autor`),
+  KEY `fk_autor_pessoa1_idx` (`autor_id_autor`),
   CONSTRAINT `fk_autor_livro` FOREIGN KEY (`livro_id_livro`) REFERENCES `livro` (`id_livro`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_autor_pessoa1` FOREIGN KEY (`pessoa_id_autor`) REFERENCES `autor` (`id_autor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_autor_pessoa1` FOREIGN KEY (`autor_id_autor`) REFERENCES `autor` (`id_autor`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,6 +146,7 @@ CREATE TABLE `emprestimo` (
 
 LOCK TABLES `emprestimo` WRITE;
 /*!40000 ALTER TABLE `emprestimo` DISABLE KEYS */;
+INSERT INTO `emprestimo` VALUES (101,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,2,51);
 /*!40000 ALTER TABLE `emprestimo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,6 +175,7 @@ CREATE TABLE `livro` (
 
 LOCK TABLES `livro` WRITE;
 /*!40000 ALTER TABLE `livro` DISABLE KEYS */;
+INSERT INTO `livro` VALUES (2,'1234','asdfasdf','asdfadsf','10','asdfasd');
 /*!40000 ALTER TABLE `livro` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -162,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-16 13:06:57
+-- Dump completed on 2016-10-18 10:03:27

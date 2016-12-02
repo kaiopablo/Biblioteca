@@ -32,6 +32,9 @@ public class Associado extends ValueObject implements Serializable {
     private String telefone;
     private String email;
     private String endereco;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataBloqueio;
+    private String senha;
 
     public Associado(){}
     
@@ -128,6 +131,34 @@ public class Associado extends ValueObject implements Serializable {
      */
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    /**
+     * @return the dataBloqueio
+     */
+    public Date getDataBloqueio() {
+        return dataBloqueio;
+    }
+
+    /**
+     * @param dataBloqueio the dataBloqueio to set
+     */
+    public void setDataBloqueio(Date dataBloqueio) {
+        this.dataBloqueio = dataBloqueio;
+    }
+
+    /**
+     * @return the senha
+     */
+    public String getSenha() {
+        return senha;
+    }
+
+    /**
+     * @param senha the senha to set
+     */
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
 

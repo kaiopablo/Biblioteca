@@ -33,26 +33,49 @@ public class Livro extends ValueObject implements Serializable {
     private String localEdicao;
     private int numeroExemplares;
     private String titulo;
+    private Date dataEdicao;
+    private Boolean isLivro;
     
     public Livro(){}
     
     public Livro(Long id, String isbn, String editora, String localEdicao, int numeroExemplares, String titulo) { 
+        System.out.println("Construtor Livro");
         this.setId(id); 
         this.isbn = isbn;
         this.editora = editora; 
         this.localEdicao = localEdicao; 
         this.numeroExemplares = numeroExemplares; 
         this.titulo = titulo; 
+        this.isLivro = true;
     } 
     
     public Livro(String isbn, String editora, String localEdicao, int numeroExemplares, String titulo) { 
+        System.out.println("Construtor Livro com ID");
         this.isbn = isbn;
         this.editora = editora; 
         this.localEdicao = localEdicao; 
         this.numeroExemplares = numeroExemplares; 
-        this.titulo = titulo; 
+        this.titulo = titulo;
+        this.isLivro = true;
     } 
+    
+    /* Construtor Revista */
+    public Livro (String titulo, Date dataEdicao){
+        System.out.println("Construtor Revista");
+        this.dataEdicao = dataEdicao;
+        this.titulo = titulo;
+        this.isLivro = false;
+    }
 
+    
+    public Livro (Long id, String titulo, Date dataEdicao){
+        System.out.println("Construtor Revista with ID");
+        this.setId(id);
+        this.dataEdicao = dataEdicao;
+        this.titulo = titulo;
+        this.isLivro = false;
+    }
+    
     @Override
     public long getId() {
         return this.getId_livro();
@@ -173,6 +196,34 @@ public class Livro extends ValueObject implements Serializable {
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    /**
+     * @return the dataEdicao
+     */
+    public Date getDataEdicao() {
+        return dataEdicao;
+    }
+
+    /**
+     * @param dataEdicao the dataEdicao to set
+     */
+    public void setDataEdicao(Date dataEdicao) {
+        this.dataEdicao = dataEdicao;
+    }
+
+    /**
+     * @return the isLivro
+     */
+    public Boolean getIsLivro() {
+        return isLivro;
+    }
+
+    /**
+     * @param isLivro the isLivro to set
+     */
+    public void setIsLivro(Boolean isLivro) {
+        this.isLivro = isLivro;
     }
 
    

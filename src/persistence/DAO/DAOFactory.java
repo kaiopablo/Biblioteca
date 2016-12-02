@@ -21,6 +21,7 @@ public abstract class DAOFactory {
     public abstract AutorPersDAO getAutorPersDAO();
     public abstract AutoriaPersDAO getAutoriaPersDAO();
     public abstract EmprestimoPersDAO getEmprestimoPersDAO();
+    public abstract OperadorPersDAO getOperadorPersDAO();
 
     public static DAOFactory getInstance(int factory) {
         

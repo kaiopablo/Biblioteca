@@ -25,6 +25,8 @@ public final class TypeDataOperation {
                 return "Emprestimo";
             case LIVRO:
                 return "Livro";
+            case OPERADOR:
+                return "Operador";
         }
         return "";
     }
@@ -41,6 +43,8 @@ public final class TypeDataOperation {
                 return "Emprestimo";
             case LIVRO:
                 return "Livro";
+            case OPERADOR:
+                return "Operador";
         }
         return "";
     }
@@ -57,6 +61,8 @@ public final class TypeDataOperation {
                 return Emprestimo.class;
             case LIVRO:
                 return Livro.class;
+            case OPERADOR:
+                return Operador.class;
             default:
                 return Object.class;
         }

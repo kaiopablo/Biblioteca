@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.Util;
+package persistence.DAO;
+
 
 /**
  *
- * @author lucasfernandes
+ * @author viniciuscustodio
  */
-public enum TypeData {
+public interface OperadorPersDAO extends BasePersDAO{
+
     
-    ASSOCIADO,
-    AUTOR,
-    AUTORIA,
-    EMPRESTIMO,
-    LIVRO,
-    OPERADOR
 }

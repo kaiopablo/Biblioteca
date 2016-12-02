@@ -53,6 +53,10 @@ public class MysqlDAOFactory extends DAOFactory{
         return new EmprestimoPersDAOMySQL();
     }
     
+    public OperadorPersDAO getOperadorPersDAO(){
+        return new OperadorPersDAOMySQL();
+    }
+    
     public static void closeStatement(Statement s) {
         try {
             if (s != null) {

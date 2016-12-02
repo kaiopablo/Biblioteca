@@ -1,6 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `library` /*!40100 DEFAULT CHARACTER SET utf8 */; 
-USE `library`; 
-
 -- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
 --
 -- Host: 127.0.0.1    Database: library
@@ -17,6 +14,31 @@ USE `library`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Operador`
+--
+
+DROP TABLE IF EXISTS `Operador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Operador` (
+  `idOperador` int(11) NOT NULL,
+  `login` varchar(45) DEFAULT NULL COMMENT '	',
+  `senha` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idOperador`),
+  UNIQUE KEY `login_UNIQUE` (`login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Operador`
+--
+
+LOCK TABLES `Operador` WRITE;
+/*!40000 ALTER TABLE `Operador` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Operador` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `SEQUENCE`
@@ -38,7 +60,7 @@ CREATE TABLE `SEQUENCE` (
 
 LOCK TABLES `SEQUENCE` WRITE;
 /*!40000 ALTER TABLE `SEQUENCE` DISABLE KEYS */;
-INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',300);
+INSERT INTO `SEQUENCE` VALUES ('SEQ_GEN',350);
 /*!40000 ALTER TABLE `SEQUENCE` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +140,7 @@ CREATE TABLE `autoria` (
 
 LOCK TABLES `autoria` WRITE;
 /*!40000 ALTER TABLE `autoria` DISABLE KEYS */;
-INSERT INTO `autoria` VALUES (158,155,54),(160,155,53),(161,155,55),(162,154,53),(163,154,54),(164,154,55),(204,203,53);
+INSERT INTO `autoria` VALUES (158,155,54),(160,155,53),(161,155,55),(162,154,53),(163,154,54),(164,154,55),(204,203,53),(304,302,55);
 /*!40000 ALTER TABLE `autoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +172,7 @@ CREATE TABLE `emprestimo` (
 
 LOCK TABLES `emprestimo` WRITE;
 /*!40000 ALTER TABLE `emprestimo` DISABLE KEYS */;
-INSERT INTO `emprestimo` VALUES (101,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',2,51),(156,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',154,51),(157,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',152,51),(205,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',203,51),(207,'2016-10-11 00:00:00','2016-10-17 00:00:00','2016-10-18 00:00:00',155,206),(251,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,2,51),(252,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',203,206),(253,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,203,206);
+INSERT INTO `emprestimo` VALUES (101,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',2,51),(156,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',154,51),(157,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',152,51),(205,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',203,51),(207,'2016-10-11 00:00:00','2016-10-17 00:00:00','2016-10-18 00:00:00',155,206),(251,'2016-10-18 00:00:00','2016-10-28 00:00:00',NULL,2,51),(252,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-10-18 00:00:00',203,206),(253,'2016-10-18 00:00:00','2016-10-28 00:00:00','2016-11-01 00:00:00',203,206),(305,'2016-11-01 00:00:00','2016-11-11 00:00:00','2016-11-01 00:00:00',302,206);
 /*!40000 ALTER TABLE `emprestimo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +201,7 @@ CREATE TABLE `livro` (
 
 LOCK TABLES `livro` WRITE;
 /*!40000 ALTER TABLE `livro` DISABLE KEYS */;
-INSERT INTO `livro` VALUES (2,'12345','Editora Um','Brasil',10,'Livro Livro'),(152,'99889','Editora Dois','Alemanha',23,'Livro 2'),(154,'34434','Editora Tres','Canada',10,'Livro Livro Livro'),(155,'51234','Editora Quatro','Cuba',10,'4 Livro'),(203,'19987','Editora Cinco','Brasil',1,'Titulo 1');
+INSERT INTO `livro` VALUES (2,'12345','Editora Um','Brasil',10,'Livro Livro'),(152,'99889','Editora Dois','Alemanha',23,'Livro 2'),(154,'34434','Editora Tres','Canada',10,'Livro Livro Livro'),(155,'51234','Editora Quatro','Cuba',10,'4 Livro'),(203,'19987','Editora Cinco','Brasil',1,'Titulo 1'),(302,'89898','Livro Livro','Ponta Grossa',10,'Livro 9');
 /*!40000 ALTER TABLE `livro` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -192,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-18 19:57:04
+-- Dump completed on 2016-12-02  9:00:37

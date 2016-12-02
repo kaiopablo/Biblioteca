@@ -6,7 +6,7 @@
 package Interface;
 
 import Utils.AssociadoTableModel;
-import Utils.LivroTableModel;
+import Utils.ExemplarTableModel;
 import VO.Associado;
 import VO.Emprestimo;
 import VO.Livro;
@@ -42,8 +42,8 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
     
     private void atualizarTabelaLivro()
     {
-        LivroTableModel tabela = (LivroTableModel)(tbLivro.getModel());
-        tabela.setDados(livroController.getListLivros(txtBLivro.getText()));
+        ExemplarTableModel tabela = (ExemplarTableModel)(tbLivro.getModel());
+        tabela.setDados(livroController.getListExemplares(txtBLivro.getText()));
         tabela.fireTableDataChanged();
     }
     
@@ -96,6 +96,8 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
         txtData2 = new javax.swing.JTextField();
         btnEmprestar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Realizar empréstimo");
@@ -125,11 +127,11 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
             }
         });
 
-        tbLivro.setModel(new LivroTableModel());
+        tbLivro.setModel(new ExemplarTableModel());
         jScrollPane2.setViewportView(tbLivro);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Selecione o livro");
+        jLabel4.setText("Selecione o exemplar");
 
         jLabel5.setText("Data atual:");
 
@@ -148,6 +150,8 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
                 btnCancelarActionPerformed(evt);
             }
         });
+
+        jLabel7.setText("Senha do associado:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,13 +188,20 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
                                 .addComponent(txtBLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(btnEmprestar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSenha))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEmprestar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -220,11 +231,15 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
                     .addComponent(txtData1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtData2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEmprestar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -255,16 +270,25 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
         
         AssociadoTableModel tabela = (AssociadoTableModel)(tbAss.getModel());
         Associado associado = (Associado)tabela.getDados().get(tbAss.getSelectedRow());
+        if(associado.getSenha().equals(txtSenha.getText())){
+            JOptionPane.showMessageDialog(null, "Senha do associado incorreta!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(emprestimoController.getLivrosEmprestando(associado) >= 3){
             JOptionPane.showMessageDialog(null, "Associado ultrapassou o limite de empréstimos!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if(associado.getDataBloqueio().after(date)){
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            JOptionPane.showMessageDialog(null, "Associado impossibilitado de realizar empréstimos até " + dateFormat.format(associado.getDataBloqueio()), "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         emp.setAssociado(associado);
         
-        LivroTableModel tabela2 = (LivroTableModel)(tbLivro.getModel());
+        ExemplarTableModel tabela2 = (ExemplarTableModel)(tbLivro.getModel());
         Livro livro = (Livro)tabela2.getDados().get(tbLivro.getSelectedRow());
         if(emprestimoController.isSemExemplares(livro)){
-            JOptionPane.showMessageDialog(null, "Esse livro não possui mais exemplares para emprestar!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Esse título não possui mais exemplares para emprestar!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         emp.setLivro(livro);
@@ -292,6 +316,7 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbAss;
@@ -300,5 +325,6 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
     private javax.swing.JTextField txtBLivro;
     private javax.swing.JTextField txtData1;
     private javax.swing.JTextField txtData2;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

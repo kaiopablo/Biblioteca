@@ -6,11 +6,16 @@
 package Interface;
 
 import VO.Emprestimo;
+import controller.AssociadoController;
 import controller.EmprestimoController;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +24,7 @@ import java.util.Date;
 public class RealizarDevolucao extends javax.swing.JDialog {
 
     private final EmprestimoController emprestimoController = new EmprestimoController();
+    private final AssociadoController associadoController = new AssociadoController();
     private Emprestimo emprestimo;
     private Principal telaP;
     /**
@@ -36,7 +42,7 @@ public class RealizarDevolucao extends javax.swing.JDialog {
         txtTitulo.setEditable(false);
         txtData1.setEditable(false);
         txtData2.setEditable(false);
-        txtMulta.setEditable(false);
+        txtDataRestricao.setEditable(false);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         txtData2.setText(dateFormat.format(date));
@@ -45,9 +51,20 @@ public class RealizarDevolucao extends javax.swing.JDialog {
         txtISBN.setText(emprestimo.getLivro().getIsbn());
         txtTitulo.setText(emprestimo.getLivro().getTitulo());
         txtData1.setText(dateFormat.format(emprestimo.getData()));
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        String moneyString = formatter.format(emprestimoController.calcularMulta(emprestimo, date));
-        txtMulta.setText(moneyString);
+        if(emprestimo.getPrevisao().before(date)){
+            int dias = Utils.Functions.daysBetween(emprestimo.getPrevisao(), date);
+            Calendar c = Calendar.getInstance(); 
+            c.setTime(date); 
+            c.add(Calendar.DATE, dias);
+            date = c.getTime();
+            if(emprestimo.getAssociado().getDataBloqueio().after(date)){
+                //Associado já restrito durante a data calculada.
+                txtDataRestricao.setText(dateFormat.format(emprestimo.getAssociado().getDataBloqueio()));
+            }else{
+                //Atualizar restrição pois a nova é maior.
+                txtDataRestricao.setText(dateFormat.format(date));
+            }
+        }
     }
 
     /**
@@ -75,7 +92,7 @@ public class RealizarDevolucao extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         txtData2 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        txtMulta = new javax.swing.JTextField();
+        txtDataRestricao = new javax.swing.JTextField();
         btnFinalizar = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
@@ -100,7 +117,7 @@ public class RealizarDevolucao extends javax.swing.JDialog {
 
         jLabel9.setText("Devolução:");
 
-        jLabel10.setText("Multa calculada:");
+        jLabel10.setText("Restrição de empréstimo até:");
 
         btnFinalizar.setText("Finalizar");
         btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +170,7 @@ public class RealizarDevolucao extends javax.swing.JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDataRestricao, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnFinalizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -184,7 +201,7 @@ public class RealizarDevolucao extends javax.swing.JDialog {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDataRestricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFinalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,6 +214,18 @@ public class RealizarDevolucao extends javax.swing.JDialog {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         emprestimo.setDevolucao(new Date());
         emprestimoController.update(emprestimo);
+        if(!txtDataRestricao.equals("")){
+            //Atualizar restrição
+            DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+            df.setLenient (false); 
+            try {
+                Date dt = df.parse(txtDataRestricao.getText());
+                emprestimo.getAssociado().setDataBloqueio(dt);
+                associadoController.update(emprestimo.getAssociado());
+            } catch (ParseException ex) {
+                Logger.getLogger(RealizarDevolucao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         telaP.atualizarTabelaEmprestimo();
         telaP.atualizarTabelaAssociado();
         this.dispose();
@@ -218,8 +247,8 @@ public class RealizarDevolucao extends javax.swing.JDialog {
     private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtData1;
     private javax.swing.JTextField txtData2;
+    private javax.swing.JTextField txtDataRestricao;
     private javax.swing.JTextField txtISBN;
-    private javax.swing.JTextField txtMulta;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables

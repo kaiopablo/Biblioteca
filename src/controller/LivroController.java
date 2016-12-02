@@ -27,6 +27,30 @@ public class LivroController extends BaseController {
     public ArrayList<ValueObject> getListLivros(String filtro){
         ArrayList<ValueObject> lista = new ArrayList<>();
         for (Livro ac : (List<Livro>) this.search()) {
+            if(ac.getIsLivro())
+            if(filtro.equals("") || ac.getTitulo().toLowerCase().contains(filtro) ||
+                    ac.getIsbn().toLowerCase().contains(filtro)){
+                lista.add(ac);
+            }
+        }
+        return lista;
+    }
+    
+    public ArrayList<ValueObject> getListExemplares(String filtro){
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Livro ac : (List<Livro>) this.search()) {
+            if(filtro.equals("") || ac.getTitulo().toLowerCase().contains(filtro) ||
+                    ac.getIsbn().toLowerCase().contains(filtro)){
+                lista.add(ac);
+            }
+        }
+        return lista;
+    }
+    
+    public ArrayList<ValueObject> getListRevistas(String filtro){
+        ArrayList<ValueObject> lista = new ArrayList<>();
+        for (Livro ac : (List<Livro>) this.search()) {
+            if(!ac.getIsLivro())
             if(filtro.equals("") || ac.getTitulo().toLowerCase().contains(filtro) ||
                     ac.getIsbn().toLowerCase().contains(filtro)){
                 lista.add(ac);

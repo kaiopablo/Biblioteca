@@ -87,6 +87,7 @@ public class Principal extends javax.swing.JFrame {
         mainMenuBar = new javax.swing.JMenuBar();
         menuCadastros = new javax.swing.JMenu();
         menuAssociados = new javax.swing.JMenuItem();
+        menuRevistas = new javax.swing.JMenuItem();
         menuLivros = new javax.swing.JMenuItem();
         menuAutores = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -136,6 +137,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuCadastros.add(menuAssociados);
+
+        menuRevistas.setText("Revistas");
+        menuRevistas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRevistasActionPerformed(evt);
+            }
+        });
+        menuCadastros.add(menuRevistas);
 
         menuLivros.setText("Livros");
         menuLivros.addActionListener(new java.awt.event.ActionListener() {
@@ -260,6 +269,10 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_menuDevolucaoActionPerformed
 
+    private void menuRevistasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRevistasActionPerformed
+        new CadRevistas(this, true).setVisible(true);
+    }//GEN-LAST:event_menuRevistasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -310,6 +323,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuDevolucao;
     private javax.swing.JMenuItem menuEmprestimo;
     private javax.swing.JMenuItem menuLivros;
+    private javax.swing.JMenuItem menuRevistas;
     private javax.swing.JMenuItem menuSair;
     private javax.swing.JPopupMenu pupEmprestimo;
     private javax.swing.JTable tbAss;

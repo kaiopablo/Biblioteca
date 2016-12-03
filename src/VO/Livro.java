@@ -33,6 +33,7 @@ public class Livro extends ValueObject implements Serializable {
     private String localEdicao;
     private int numeroExemplares;
     private String titulo;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataEdicao;
     private Boolean isLivro;
     

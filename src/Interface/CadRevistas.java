@@ -283,7 +283,7 @@ public class CadRevistas extends javax.swing.JDialog {
             Livro selected = (Livro)tabela.getDados().get(tbDados.getSelectedRow());
             txtCod.setText(String.valueOf(selected.getId()));
             txtTitulo.setText(selected.getTitulo());
-            txtEdicao.setText(selected.getLocalEdicao());
+            txtEdicao.setText(selected.getDataEdicao().getDate() + "/" + selected.getDataEdicao().getMonth() + "/" + selected.getDataEdicao().getYear());
             txtNumero.setText(String.valueOf(selected.getNumeroExemplares()));
         }
     }//GEN-LAST:event_btnEditarActionPerformed

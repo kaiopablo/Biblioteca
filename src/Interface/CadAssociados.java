@@ -25,6 +25,7 @@ public class CadAssociados extends javax.swing.JDialog {
         txtFone.setEnabled(cadastrando);
         txtEmail.setEnabled(cadastrando);
         txtEnd.setEnabled(cadastrando);
+        txtSenha.setEnabled(cadastrando);
         btnSalvar.setEnabled(cadastrando);
         btnCancelar.setEnabled(cadastrando);
         txtBuscar.setEnabled(!cadastrando);

@@ -13,6 +13,7 @@ import controller.AssociadoController;
 import controller.OperadorController;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -298,10 +299,16 @@ public class CadOperadores extends javax.swing.JDialog {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if (txtCod.getText().equals("")) {
             Operador novo = new Operador(txtLogin.getText(), txtSenha.getText());
-            operadorController.registry(novo);
+            if(!operadorController.registry(novo)){
+                JOptionPane.showMessageDialog(null, "Usuário duplicado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         } else {
             Operador edit = new Operador(Long.parseLong(txtCod.getText()), txtLogin.getText(), txtSenha.getText());
-            operadorController.update(edit);
+            if(!operadorController.update(edit)){
+                JOptionPane.showMessageDialog(null, "Usuário duplicado.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
         setClean();
         setCadastrando(false);

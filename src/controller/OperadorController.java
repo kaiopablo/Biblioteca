@@ -34,9 +34,7 @@ public class OperadorController extends BaseController {
         public ArrayList<Operador> getListOperadorLogin(String filtro){
         ArrayList<Operador> lista = new ArrayList<>();
         for (Operador ac : (List<Operador>) this.search()) {
-            if(ac.getLogin().toLowerCase().contains(filtro)){
                 lista.add(ac);
-            }
         }
         return lista;
     }

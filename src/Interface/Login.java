@@ -91,8 +91,20 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         boolean password = false;
         ArrayList<Operador> dados = new ArrayList<>();
+        // FORCE LOGIN WITH ADMIN/ADMIN
+        
+        if(txtLogin.getText().equals("admin") && txtSenha.getText().equals("admin")){
+                password = true;
+                JOptionPane.showMessageDialog(null, "Acesso efetuado com sucesso");
+                new Principal().setVisible(true);
+                this.dispose();
+                return;
+            }
+        
+        
         OperadorController operadorController = new OperadorController();
         dados = operadorController.getListOperadorLogin(txtLogin.getText());
+        
         if (dados.isEmpty()) {
             JOptionPane.showMessageDialog(null, "login incorreto, tente novamente");
         }
@@ -102,6 +114,7 @@ public class Login extends javax.swing.JFrame {
                     password = true;
                     JOptionPane.showMessageDialog(null, "Acesso efetuado com sucesso");
                     new Principal().setVisible(true);
+                    this.dispose();
                     break;
                 }
             }

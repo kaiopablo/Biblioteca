@@ -27,12 +27,13 @@ public class RealizarDevolucao extends javax.swing.JDialog {
     private final AssociadoController associadoController = new AssociadoController();
     private Emprestimo emprestimo;
     private Principal telaP;
+
     /**
      * Creates new form RealizarDevolucao
      */
     public RealizarDevolucao(java.awt.Frame parent, boolean modal, Emprestimo emprestimo) {
         super(parent, modal);
-        telaP = (Principal)parent;
+        telaP = (Principal) parent;
         initComponents();
         this.setLocationRelativeTo(null);
         this.emprestimo = emprestimo;
@@ -51,19 +52,20 @@ public class RealizarDevolucao extends javax.swing.JDialog {
         txtISBN.setText(emprestimo.getLivro().getIsbn());
         txtTitulo.setText(emprestimo.getLivro().getTitulo());
         txtData1.setText(dateFormat.format(emprestimo.getData()));
-        if(emprestimo.getPrevisao().before(date)){
+        if (emprestimo.getPrevisao().before(date)) {
             int dias = Utils.Functions.daysBetween(emprestimo.getPrevisao(), date);
-            Calendar c = Calendar.getInstance(); 
-            c.setTime(date); 
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
             c.add(Calendar.DATE, dias);
             date = c.getTime();
-            if(emprestimo.getAssociado().getDataBloqueio().after(date)){
+            if (emprestimo.getAssociado().getDataBloqueio() != null && emprestimo.getAssociado().getDataBloqueio().after(date)) {
                 //Associado já restrito durante a data calculada.
                 txtDataRestricao.setText(dateFormat.format(emprestimo.getAssociado().getDataBloqueio()));
-            }else{
+            } else {
                 //Atualizar restrição pois a nova é maior.
                 txtDataRestricao.setText(dateFormat.format(date));
             }
+
         }
     }
 
@@ -214,10 +216,11 @@ public class RealizarDevolucao extends javax.swing.JDialog {
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
         emprestimo.setDevolucao(new Date());
         emprestimoController.update(emprestimo);
-        if(!txtDataRestricao.equals("")){
+
+        if (!txtDataRestricao.getText().equals("")) {
             //Atualizar restrição
-            DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
-            df.setLenient (false); 
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            df.setLenient(false);
             try {
                 Date dt = df.parse(txtDataRestricao.getText());
                 emprestimo.getAssociado().setDataBloqueio(dt);

@@ -42,6 +42,7 @@ public class CadAssociados extends javax.swing.JDialog {
         txtFone.setText("");
         txtEmail.setText("");
         txtEnd.setText("");
+        txtSenha.setText("");
     }
 
     private void atualizarTabela() {
@@ -312,6 +313,7 @@ public class CadAssociados extends javax.swing.JDialog {
             txtEmail.setText(selected.getEmail());
             txtFone.setText(selected.getTelefone());
             txtEnd.setText(selected.getEndereco());
+            txtSenha.setText(selected.getSenha());
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 

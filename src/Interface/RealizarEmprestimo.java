@@ -31,28 +31,27 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
     private final AssociadoController associadoController = new AssociadoController();
     private final LivroController livroController = new LivroController();
     private final EmprestimoController emprestimoController = new EmprestimoController();
-    
+
     private final Principal telaPrincipal;
-    
+
     private void atualizarTabelaAssociado() {
-        AssociadoTableModel tabela = (AssociadoTableModel)(tbAss.getModel());
+        AssociadoTableModel tabela = (AssociadoTableModel) (tbAss.getModel());
         tabela.setDados(associadoController.getListAssociado(txtBAss.getText()));
         tabela.fireTableDataChanged();
     }
-    
-    private void atualizarTabelaLivro()
-    {
-        ExemplarTableModel tabela = (ExemplarTableModel)(tbLivro.getModel());
+
+    private void atualizarTabelaLivro() {
+        ExemplarTableModel tabela = (ExemplarTableModel) (tbLivro.getModel());
         tabela.setDados(livroController.getListExemplares(txtBLivro.getText()));
         tabela.fireTableDataChanged();
     }
-    
+
     /**
      * Creates new form RealizarEmprestimo
      */
     public RealizarEmprestimo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        telaPrincipal = (Principal)parent;
+        telaPrincipal = (Principal) parent;
         initComponents();
         this.setLocationRelativeTo(null);
         atualizarTabelaLivro();
@@ -62,8 +61,8 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         txtData1.setText(dateFormat.format(date));
-        Calendar c = Calendar.getInstance(); 
-        c.setTime(date); 
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
         c.add(Calendar.DATE, 10);
         date = c.getTime();
         txtData2.setText(dateFormat.format(date));
@@ -254,45 +253,49 @@ public class RealizarEmprestimo extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBuscar2ActionPerformed
 
     private void btnEmprestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmprestarActionPerformed
-        if(tbAss.getSelectedRowCount() == 0 || tbLivro.getSelectedRowCount() == 0){
+        if (tbAss.getSelectedRowCount() == 0 || tbLivro.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Selecione um associado e um livro", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Emprestimo emp = new Emprestimo();
-        
+
         Date date = new Date();
         emp.setData(date);
-        Calendar c = Calendar.getInstance(); 
-        c.setTime(date); 
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
         c.add(Calendar.DATE, 10);
         date = c.getTime();
         emp.setPrevisao(date);
-        
-        AssociadoTableModel tabela = (AssociadoTableModel)(tbAss.getModel());
-        Associado associado = (Associado)tabela.getDados().get(tbAss.getSelectedRow());
-        if(associado.getSenha().equals(txtSenha.getText())){
+
+        AssociadoTableModel tabela = (AssociadoTableModel) (tbAss.getModel());
+        Associado associado = (Associado) tabela.getDados().get(tbAss.getSelectedRow());
+        if (!associado.getSenha().equals(txtSenha.getText())) {
             JOptionPane.showMessageDialog(null, "Senha do associado incorreta!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(emprestimoController.getLivrosEmprestando(associado) >= 3){
+        if (emprestimoController.getLivrosEmprestando(associado) >= 3) {
             JOptionPane.showMessageDialog(null, "Associado ultrapassou o limite de empréstimos!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(associado.getDataBloqueio().after(date)){
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            JOptionPane.showMessageDialog(null, "Associado impossibilitado de realizar empréstimos até " + dateFormat.format(associado.getDataBloqueio()), "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
-            return;
+        
+        if (associado.getDataBloqueio() != null) {
+            date = new Date();
+            if (associado.getDataBloqueio().after(date)) {
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                JOptionPane.showMessageDialog(null, "Associado impossibilitado de realizar empréstimos até " + dateFormat.format(associado.getDataBloqueio()), "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
         emp.setAssociado(associado);
-        
-        ExemplarTableModel tabela2 = (ExemplarTableModel)(tbLivro.getModel());
-        Livro livro = (Livro)tabela2.getDados().get(tbLivro.getSelectedRow());
-        if(emprestimoController.isSemExemplares(livro)){
+
+        ExemplarTableModel tabela2 = (ExemplarTableModel) (tbLivro.getModel());
+        Livro livro = (Livro) tabela2.getDados().get(tbLivro.getSelectedRow());
+        if (emprestimoController.isSemExemplares(livro)) {
             JOptionPane.showMessageDialog(null, "Esse título não possui mais exemplares para emprestar!", "Realizar empréstimo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         emp.setLivro(livro);
-        
+
         emprestimoController.registry(emp);
         telaPrincipal.setClean();
         telaPrincipal.atualizarTabelaEmprestimo();

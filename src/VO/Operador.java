@@ -27,6 +27,17 @@ public class Operador extends ValueObject implements Serializable {
             
     public Operador(){}
     
+    public Operador(Long id, String login, String senha) { 
+        this.setId(id); 
+        this.login = login; 
+        this.senha = senha;
+    } 
+    
+    public Operador(String login, String senha) { 
+        this.login = login; 
+        this.senha = senha; 
+    } 
+    
     @Override
     public long getId() {
         return this.getId_operador();

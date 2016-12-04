@@ -51,6 +51,9 @@ public class BaseController {
             case EMPRESTIMO:
                 setBasePersDAO(DAOFactory.buscarInstancia().getEmprestimoPersDAO());
                 break;
+            case OPERADOR:
+                setBasePersDAO(DAOFactory.buscarInstancia().getOperadorPersDAO());
+                break;
             default:
                 break;
                 

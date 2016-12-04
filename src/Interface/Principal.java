@@ -90,6 +90,7 @@ public class Principal extends javax.swing.JFrame {
         menuRevistas = new javax.swing.JMenuItem();
         menuLivros = new javax.swing.JMenuItem();
         menuAutores = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuEmprestimo = new javax.swing.JMenuItem();
         menuSair = new javax.swing.JMenuItem();
@@ -161,6 +162,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         menuCadastros.add(menuAutores);
+
+        jMenuItem1.setText("Operadores");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuCadastros.add(jMenuItem1);
         menuCadastros.add(jSeparator1);
 
         menuEmprestimo.setText("Realizar empréstimo");
@@ -273,6 +282,11 @@ public class Principal extends javax.swing.JFrame {
         new CadRevistas(this, true).setVisible(true);
     }//GEN-LAST:event_menuRevistasActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new CadOperadores(this, true).setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -313,6 +327,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnFiltroEmp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
